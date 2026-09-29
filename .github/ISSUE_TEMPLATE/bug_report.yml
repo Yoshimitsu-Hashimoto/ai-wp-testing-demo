@@ -1,0 +1,78 @@
+name: バグ報告
+description: 仕様書の受け入れ条件を満たしていない不具合を報告します
+title: "[BUG-XX] "
+labels: ["bug"]
+body:
+  - type: input
+    id: bug_id
+    attributes:
+      label: バグID
+      description: バグ管理表（docs/bug-list.md）のID
+      placeholder: BUG-01
+    validations:
+      required: true
+  - type: input
+    id: spec_id
+    attributes:
+      label: 仕様ID
+      description: 満たしていない仕様書の受け入れ条件
+      placeholder: SPEC-02
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: 概要
+      description: 何が起きるかを簡潔に記載
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 再現手順
+      description: 前提条件と操作手順
+      placeholder: |
+        前提条件：
+        1.
+        2.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期待結果
+      description: 仕様書に基づく正しい動作
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 実際の結果
+      description: 実行時に確認した動作
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 重要度
+      options:
+        - 高：主要機能が仕様どおりに動かない
+        - 中：一部の条件で仕様どおりに動かない
+        - 低：表示上の問題など影響が小さい
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 証拠
+      description: スクリーンショット、Playwrightのトレース、テストの実行記録など
+  - type: textarea
+    id: verification
+    attributes:
+      label: 修正後の確認条件
+      description: 修正が完了したと判断するために再実行するテスト
+      placeholder: |
+        - 失敗したテスト：
+        - 関連テスト：
+    validations:
+      required: true
