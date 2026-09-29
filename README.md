@@ -15,6 +15,15 @@
 | 絞り込み | カスタムタクソノミー「業種」で実績を絞り込む |
 | お問い合わせ | 名前・メール・本文・同意チェック・送信完了表示。送信内容はローカルのメール確認環境に届く |
 
+## 資料
+
+| 資料 | 内容 |
+|---|---|
+| [docs/spec.md](docs/spec.md) | サイト仕様書。仕様IDと受け入れ条件 |
+| [docs/test-data.md](docs/test-data.md) | テストデータと期待する件数 |
+| [docs/spec-ambiguous-example.md](docs/spec-ambiguous-example.md) | 曖昧な仕様と、判断できる仕様の比較 |
+| [docs/bug-list.md](docs/bug-list.md) | バグ管理表 |
+
 ## ローカル環境の起動
 
 Docker Desktop（Docker Compose v2）が必要です。
@@ -95,4 +104,4 @@ WordPressから送信したメールは外部には送られず、すべてMailp
 | `docs/` | 仕様書・テストデータ・バグ管理表など |
 | `.github/ISSUE_TEMPLATE/` | バグ報告用のIssueテンプレート |
 
-仕様書・テストは順次追加します。
+テストは順次追加します。

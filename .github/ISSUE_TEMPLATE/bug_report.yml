@@ -16,7 +16,7 @@ body:
     attributes:
       label: 仕様ID
       description: 満たしていない仕様書の受け入れ条件
-      placeholder: SPEC-02
+      placeholder: SPEC-XX
     validations:
       required: true
   - type: textarea

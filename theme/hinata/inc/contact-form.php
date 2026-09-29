@@ -69,8 +69,10 @@ add_action(
 
 		$post = wp_unslash( $_POST );
 		// 文字列以外（配列など）が送られた場合は未入力として扱う。
+		// 前後の空白は全角スペースも含めて取り除き、空白だけの入力を未入力とみなす。
 		$field  = static function ( $key ) use ( $post ) {
-			return isset( $post[ $key ] ) && is_string( $post[ $key ] ) ? $post[ $key ] : '';
+			$value = isset( $post[ $key ] ) && is_string( $post[ $key ] ) ? $post[ $key ] : '';
+			return (string) preg_replace( '/\A[\s\x{3000}]+|[\s\x{3000}]+\z/u', '', $value );
 		};
 		$values = array(
 			'name'    => sanitize_text_field( $field( 'contact_name' ) ),
