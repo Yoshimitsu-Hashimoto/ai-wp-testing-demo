@@ -25,6 +25,7 @@
 | [docs/bug-list.md](docs/bug-list.md) | バグ管理表 |
 | [docs/test-plan.md](docs/test-plan.md) | テスト計画（解答例） |
 | [docs/test-results-buggy.md](docs/test-results-buggy.md) | `buggy` ブランチでのテスト実行記録（解答例） |
+| [docs/test-results-fixed.md](docs/test-results-fixed.md) | `fixed` ブランチでのテスト実行記録（解答例） |
 
 ## ローカル環境の起動
 
