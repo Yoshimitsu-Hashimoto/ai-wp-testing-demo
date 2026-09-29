@@ -23,6 +23,8 @@
 | [docs/test-data.md](docs/test-data.md) | テストデータと期待する件数 |
 | [docs/spec-ambiguous-example.md](docs/spec-ambiguous-example.md) | 曖昧な仕様と、判断できる仕様の比較 |
 | [docs/bug-list.md](docs/bug-list.md) | バグ管理表 |
+| [docs/test-plan.md](docs/test-plan.md) | テスト計画（解答例） |
+| [docs/test-results-buggy.md](docs/test-results-buggy.md) | `buggy` ブランチでのテスト実行記録（解答例） |
 
 ## ローカル環境の起動
 
@@ -109,6 +111,7 @@ Claude Codeからブラウザを操作するための Playwright MCP の設定�
 | `start` | 実績一覧の業種による絞り込みを実装する前の状態 |
 | `buggy` | 実演用のバグが入った状態 |
 | `fixed` | バグ修正済み |
+| `reference` | `fixed` に解答例（テスト計画・Playwrightのテスト・`buggy` での実行記録）を加えたもの |
 
 テーマはDockerのコンテナにそのままマウントされているため、ブランチを切り替えるとすぐにサイトに反映されます。データベースはブランチと関係なく共通です。
 
