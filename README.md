@@ -69,7 +69,7 @@ WordPressから送信したメールは外部には送られず、すべてMailp
 
 ## テスト（Playwright）
 
-Node.js 20以上が必要です。初回だけ次を実行します。
+Node.js 20.12以上が必要です。初回だけ次を実行します。
 
 ```bash
 npm install
@@ -83,7 +83,10 @@ npx playwright install chromium
 
 テストは `tests/e2e/` に置きます。テストの前に `./scripts/seed.sh` でテストデータと確認用メールボックスを初期状態に戻しておきます。
 
-Claude Codeからブラウザを操作するための Playwright MCP の設定は `.mcp.json` にあります。Claude Codeでこのリポジトリを開き、MCPサーバーの利用を許可すると使えます。
+- ポートは `.env` の `WP_PORT`・`MAILPIT_PORT` を読み込みます（`.env` がなければ 8090・8091）。
+- テストは並列にせず、1つずつ実行します。お問い合わせのテストが確認用メールボックスを共有しているためです（`playwright.config.ts` の `workers: 1`）。
+
+Claude Codeからブラウザを操作するための Playwright MCP の設定は `.mcp.json` にあります。Claude Codeでこのリポジトリを開き、MCPサーバーの利用を許可すると使えます。Playwright MCP は、このPCにインストールされている Google Chrome を使います。ログイン状態などは保存されません（`--isolated`）。
 
 ## WordPressテーマ（theme/hinata）
 
@@ -111,7 +114,7 @@ Claude Codeからブラウザを操作するための Playwright MCP の設定�
 | `start` | 実績一覧の業種による絞り込みを実装する前の状態 |
 | `buggy` | 実演用のバグが入った状態 |
 | `fixed` | バグ修正済み |
-| `reference` | `fixed` に解答例（テスト計画・Playwrightのテスト・`buggy` での実行記録）を加えたもの |
+| `reference` | 解答例（講座後の参考用） |
 
 テーマはDockerのコンテナにそのままマウントされているため、ブランチを切り替えるとすぐにサイトに反映されます。データベースはブランチと関係なく共通です。
 
