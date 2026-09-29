@@ -50,10 +50,6 @@ function hinata_validate_contact( $values ) {
 		$errors['message'] = 'お問い合わせ内容を入力してください。';
 	}
 
-	if ( 'agree' !== $values['consent'] ) {
-		$errors['consent'] = 'プライバシーポリシーへの同意が必要です。';
-	}
-
 	return $errors;
 }
 

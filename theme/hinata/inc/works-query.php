@@ -30,17 +30,7 @@ add_action(
 
 		$industry = hinata_get_current_industry();
 		if ( '' !== $industry ) {
-			// 存在しない業種が指定された場合は該当0件になる。
-			$query->set(
-				'tax_query',
-				array(
-					array(
-						'taxonomy' => 'industry',
-						'field'    => 'slug',
-						'terms'    => $industry,
-					),
-				)
-			);
+			$query->set( 'industry', $industry );
 		}
 	}
 );

@@ -119,11 +119,11 @@ function hinata_get_works_meta_rows( $post_id ) {
 	$rows = array();
 	foreach ( hinata_works_fields() as $key => $field ) {
 		$value = trim( (string) get_post_meta( $post_id, $key, true ) );
-		if ( '' === $value ) {
-			continue;
-		}
 		if ( 'production_year' === $key ) {
 			$value .= '年';
+		}
+		if ( '' === $value ) {
+			continue;
 		}
 		$rows[] = array(
 			'label' => $field['label'],
