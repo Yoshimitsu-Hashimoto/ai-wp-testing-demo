@@ -7,6 +7,8 @@
 ## 0. 準備
 
 1. このリポジトリを自分のGitHubアカウントにフォークし、cloneする（Issueを作るため）。
+   - フォークは初期状態でIssueが無効になっている。フォークの Settings → General → Features で Issues を有効にする。
+   - `gh issue create` が自分のフォークにIssueを作るよう、cloneしたフォルダで `gh repo set-default <自分のアカウント>/ai-wp-testing-demo` を実行する。
 2. [README](../README.md) の「ローカル環境の起動」と「テスト（Playwright）」の手順で、環境とPlaywrightを用意する。
 3. Claude Code をこのリポジトリのフォルダで起動し、Playwright MCP の利用を許可する。
 4. GitHub CLI（`gh`）でログインしておく（`gh auth status` で確認）。
@@ -87,6 +89,7 @@ docs/test-plan.md のテストケースを、Playwright Test のテストコー�
 - 設定は playwright.config.ts にある。確認用メールボックスは Mailpit の API（http://localhost:8091/api/v1/messages）で確かめる
 - テスト名にテストIDと仕様IDを入れる
 - 実行前に ./scripts/seed.sh を実行し、npm test で実行して結果を報告する。不合格のテストがあっても、期待結果やコードを変えない
+- テストは仕様書とテストデータをもとに書く。テーマのコード（theme/）、git の履歴や差分、他のブランチは見ない
 - 不合格のテストのスクリーンショット（test-results/ の中）は、実行のたびに上書きされるため docs/evidence/ にテストIDが分かる名前でコピーしておく
 ```
 
@@ -117,6 +120,8 @@ GitHub Issue #<番号> を gh issue view で読み、修正してください。
 - 修正後、Issueの「修正後の確認条件」にあるテストを実行して合格を確かめ、続けて npm test で全テストを実行する
 - 結果をIssueにコメントし、バグ管理表の対応状況を更新する
 ```
+
+Issueを作ったら、GitHubの画面でIssueを開き、`docs/evidence/` のスクリーンショットをドラッグ＆ドロップで添付します（`gh issue create` では画像を添付できません）。
 
 修正したバグのテストが合格し、他のバグのテストは不合格のまま残ることを確かめます。
 

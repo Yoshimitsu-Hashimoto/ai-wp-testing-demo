@@ -25,8 +25,9 @@ const draftWork = '喫茶 ひだまり 様';
 
 const filterNav = (page: Page) => page.getByRole('navigation', { name: '業種で絞り込む' });
 
-// 選択状態のボタンの背景色（濃い紺 #173b5b）
+// 選択状態のボタンの背景色（紺色 #173b5b）と、選んでいないボタンの背景色（白）
 const selectedBackground = 'rgb(23, 59, 91)';
+const unselectedBackground = 'rgb(255, 255, 255)';
 const workTitles = (page: Page) => page.locator('.works-grid .work-title');
 const resultCount = (page: Page) => page.locator('.result-count');
 
@@ -45,7 +46,7 @@ test.describe('制作実績一覧', () => {
     await expect(filterNav(page).getByRole('link')).toHaveText(['すべて', '飲食', '製造', 'サービス', '医療']);
     await expect(filterNav(page).locator('[aria-current="page"]')).toHaveText(['すべて']);
     await expect(filterNav(page).getByRole('link', { name: 'すべて', exact: true })).toHaveCSS('background-color', selectedBackground);
-    await expect(filterNav(page).getByRole('link', { name: '飲食', exact: true })).not.toHaveCSS('background-color', selectedBackground);
+    await expect(filterNav(page).getByRole('link', { name: '飲食', exact: true })).toHaveCSS('background-color', unselectedBackground);
   });
 
   for (const [index, [industry, titles]] of Object.entries(worksByIndustry).entries()) {
@@ -58,7 +59,7 @@ test.describe('制作実績一覧', () => {
       await expect(resultCount(page)).toHaveText('3件の実績');
       await expect(filterNav(page).locator('[aria-current="page"]')).toHaveText([industry]);
       await expect(filterNav(page).getByRole('link', { name: industry, exact: true })).toHaveCSS('background-color', selectedBackground);
-      await expect(filterNav(page).getByRole('link', { name: 'すべて', exact: true })).not.toHaveCSS('background-color', selectedBackground);
+      await expect(filterNav(page).getByRole('link', { name: 'すべて', exact: true })).toHaveCSS('background-color', unselectedBackground);
     });
   }
 
@@ -85,8 +86,9 @@ test.describe('制作実績一覧', () => {
   });
 
   test('TC-06 [SPEC-07][SPEC-09] 存在しない業種をURLで指定すると、該当0件になり、どのボタンも選択状態にならない', async ({ page }) => {
-    await page.goto('/works/?industry=not-exist');
+    const response = await page.goto('/works/?industry=not-exist');
 
+    expect(response?.status()).toBe(200);
     await expect(workTitles(page)).toHaveCount(0);
     await expect(page.getByText('該当する実績はありません。')).toBeVisible();
     await expect(filterNav(page).locator('[aria-current="page"]')).toHaveCount(0);
