@@ -1,7 +1,7 @@
 :root{font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;color:#263744;background:#fff;font-synthesis:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;--navy:#173b5b;--blue:#3171a4;--pale:#eff6fa;--line:#d9e4eb;--muted:#6b7c89;--serif:"Yu Mincho","Hiragino Mincho ProN","Noto Serif JP",serif}
 *{box-sizing:border-box}
 body{margin:0;min-width:320px;font-size:16px;line-height:1.8}
-img{max-width:100%;display:block}
+img{max-width:100%;height:auto;display:block}
 a{color:inherit;text-decoration:none}
 a:hover{text-decoration:underline;text-underline-offset:4px}
 a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #73aeda;outline-offset:3px}
