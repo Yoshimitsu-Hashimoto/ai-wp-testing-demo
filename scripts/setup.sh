@@ -46,7 +46,12 @@ fi
 
 # 初期設定。途中で失敗しても再実行で揃うよう、毎回適用する。
 # 日本語パックは wordpress.org から取得するため、初回はネットワーク接続が必要。
-wp language core install ja --activate
+if ! wp language core is-installed ja; then
+  wp language core install ja
+fi
+if [ "$(wp option get WPLANG)" != ja ]; then
+  wp site switch-language ja
+fi
 wp option update timezone_string Asia/Tokyo
 wp option update date_format 'Y年n月j日'
 # .htaccess は WordPress イメージに同梱のものを使う
