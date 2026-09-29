@@ -24,6 +24,9 @@ const allPublishedWorks = [
 const draftWork = '喫茶 ひだまり 様';
 
 const filterNav = (page: Page) => page.getByRole('navigation', { name: '業種で絞り込む' });
+
+// 選択状態のボタンの背景色（濃い紺 #173b5b）
+const selectedBackground = 'rgb(23, 59, 91)';
 const workTitles = (page: Page) => page.locator('.works-grid .work-title');
 const resultCount = (page: Page) => page.locator('.result-count');
 
@@ -41,6 +44,8 @@ test.describe('制作実績一覧', () => {
 
     await expect(filterNav(page).getByRole('link')).toHaveText(['すべて', '飲食', '製造', 'サービス', '医療']);
     await expect(filterNav(page).locator('[aria-current="page"]')).toHaveText(['すべて']);
+    await expect(filterNav(page).getByRole('link', { name: 'すべて', exact: true })).toHaveCSS('background-color', selectedBackground);
+    await expect(filterNav(page).getByRole('link', { name: '飲食', exact: true })).not.toHaveCSS('background-color', selectedBackground);
   });
 
   for (const [index, [industry, titles]] of Object.entries(worksByIndustry).entries()) {
@@ -52,6 +57,8 @@ test.describe('制作実績一覧', () => {
       await expect(page.locator('.works-grid .work-category')).toHaveText([industry, industry, industry]);
       await expect(resultCount(page)).toHaveText('3件の実績');
       await expect(filterNav(page).locator('[aria-current="page"]')).toHaveText([industry]);
+      await expect(filterNav(page).getByRole('link', { name: industry, exact: true })).toHaveCSS('background-color', selectedBackground);
+      await expect(filterNav(page).getByRole('link', { name: 'すべて', exact: true })).not.toHaveCSS('background-color', selectedBackground);
     });
   }
 

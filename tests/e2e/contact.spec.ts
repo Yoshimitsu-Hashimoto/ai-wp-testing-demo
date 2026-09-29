@@ -29,11 +29,15 @@ async function submit(page: Page) {
   await page.waitForLoadState('domcontentloaded');
 }
 
-/** 送信できなかったことを確かめる：お問い合わせページに留まり、エラーが出て、メールは届かない。 */
+/**
+ * 送信できなかったことを確かめる：お問い合わせページに留まり、エラーが出て、メールは届かない。
+ * 仕様はメッセージの表示順を定めていないため、順序は問わずに比べる。
+ */
 async function expectRejected(page: Page, request: Parameters<typeof listMails>[0], messages: string[]) {
   await expect(page).toHaveURL(/\/contact\/$/);
   await expect(page.locator('.form-errors')).toContainText('入力内容に問題があります。');
-  await expect(page.locator('.form-errors li')).toHaveText(messages);
+  const shown = await page.locator('.form-errors li').allTextContents();
+  expect([...shown].sort()).toEqual([...messages].sort());
   expect(await listMails(request)).toHaveLength(0);
 }
 
@@ -113,12 +117,23 @@ test.describe('お問い合わせ', () => {
   });
 
   test('TC-21 [SPEC-13] 送信できなかった場合、入力済みの内容が残っている', async ({ page, request }) => {
-    await fillContactForm(page, { ...validInput, consent: false });
+    await fillContactForm(page, { ...validInput, email: 'yamada@example' });
     await submit(page);
 
-    await expectRejected(page, request, ['プライバシーポリシーへの同意が必要です。']);
+    await expectRejected(page, request, ['メールアドレスの形式が正しくありません。']);
     await expect(page.getByLabel('お名前')).toHaveValue(validInput.name);
-    await expect(page.getByLabel('メールアドレス')).toHaveValue(validInput.email);
+    await expect(page.getByLabel('メールアドレス')).toHaveValue('yamada@example');
     await expect(page.getByLabel('お問い合わせ内容')).toHaveValue(validInput.message);
+    await expect(page.getByRole('checkbox', { name: /プライバシーポリシー/ })).toBeChecked();
+  });
+
+  test('TC-22 [SPEC-06] 入力の前後の空白は取り除いて扱われる', async ({ page, request }) => {
+    await fillContactForm(page, { ...validInput, name: '　山田 太郎 ', email: ' yamada@example.test　' });
+    await submit(page);
+
+    await expect(page).toHaveURL(/\/thanks\/$/);
+    const mails = await waitForMails(request, 1);
+    expect(mails[0].Subject).toBe('【株式会社ひなた】お問い合わせ（山田 太郎 様）');
+    expect(mails[0].ReplyTo.map((to) => to.Address)).toEqual(['yamada@example.test']);
   });
 });
