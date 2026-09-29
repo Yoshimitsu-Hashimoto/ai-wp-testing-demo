@@ -86,7 +86,8 @@ docs/test-plan.md のテストケースを、Playwright MCP のブラウザで�
 docs/test-plan.md のテストケースを、Playwright Test のテストコードとして tests/e2e/ に書いてください。
 - 設定は playwright.config.ts にある。確認用メールボックスは Mailpit の API（http://localhost:8091/api/v1/messages）で確かめる
 - テスト名にテストIDと仕様IDを入れる
-- npm test で実行し、結果を報告する。不合格のテストがあっても、期待結果やコードを変えない
+- 実行前に ./scripts/seed.sh を実行し、npm test で実行して結果を報告する。不合格のテストがあっても、期待結果やコードを変えない
+- 不合格のテストのスクリーンショット（test-results/ の中）は、実行のたびに上書きされるため docs/evidence/ にテストIDが分かる名前でコピーしておく
 ```
 
 ## 5. バグ管理表とGitHub Issue
@@ -99,7 +100,7 @@ Issueにするバグは、バグ管理表を見て人が1件選びます（講�
 テストで不合格になった結果を、docs/bug-list.md のバグ管理表に記録してください。
 - 同じ原因と考えられる不合格は1件にまとめる
 - 期待結果は仕様書の記述に基づいて書く
-- 証拠には、スクリーンショットのパスや不合格になったテストIDを書く
+- 証拠には、docs/evidence/ に保存したスクリーンショットのパスと、不合格になったテストIDを書く
 
 記録したバグのうち BUG-<番号> を、GitHub Issue にしてください。
 .github/ISSUE_TEMPLATE/bug_report.yml の項目（バグID、仕様ID、概要、再現手順、期待結果、実際の結果、重要度、証拠、修正後の確認条件）を本文に含め、ラベル bug を付けて gh issue create で作成してください。作成したらIssueのURLをバグ管理表に記入してください。
@@ -111,7 +112,7 @@ Issueにするバグは、バグ管理表を見て人が1件選びます（講�
 
 ```text
 GitHub Issue #<番号> を gh issue view で読み、修正してください。
-- 新しいブランチ fix/issue-<番号> を作って作業する
+- 新しいブランチ fix/issue-<番号> を作って作業する。コミットするのはテーマの修正だけにする
 - 仕様書（docs/spec.md）に合うように実装を直す。テストの期待結果は変えない
 - 修正後、Issueの「修正後の確認条件」にあるテストを実行して合格を確かめ、続けて npm test で全テストを実行する
 - 結果をIssueにコメントし、バグ管理表の対応状況を更新する
