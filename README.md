@@ -65,6 +65,24 @@ WordPressから送信したメールは外部には送られず、すべてMailp
 | データベース | `mariadb:11.4.13` |
 | メール確認 | `axllent/mailpit:v1.31.3` |
 
+## テスト（Playwright）
+
+Node.js 20以上が必要です。初回だけ次を実行します。
+
+```bash
+npm install
+npx playwright install chromium
+```
+
+| 操作 | コマンド |
+|---|---|
+| テストを実行する | `npm test` |
+| 結果のレポートを開く（失敗時のスクリーンショット・トレースを含む） | `npm run test:report` |
+
+テストは `tests/e2e/` に置きます。テストの前に `./scripts/seed.sh` でテストデータと確認用メールボックスを初期状態に戻しておきます。
+
+Claude Codeからブラウザを操作するための Playwright MCP の設定は `.mcp.json` にあります。Claude Codeでこのリポジトリを開き、MCPサーバーの利用を許可すると使えます。
+
 ## WordPressテーマ（theme/hinata）
 
 | ファイル | 役割 |
@@ -105,9 +123,11 @@ git switch buggy
 | `static-site/` | WordPress化する前の静的HTML/CSS（デザインの元） |
 | `theme/hinata/` | WordPressテーマ |
 | `compose.yaml` | Docker環境の定義 |
+| `tests/e2e/` | Playwrightのテスト |
+| `playwright.config.ts` / `package.json` | Playwrightの設定 |
+| `.mcp.json` | Claude Code用の Playwright MCP の設定 |
 | `docker/mu-plugins/` | ローカル環境用の設定（メールをMailpitへ送る） |
 | `scripts/` | 環境の起動・初期化、テストデータ投入、スナップショットのスクリプト |
 | `docs/` | 仕様書・テストデータ・バグ管理表など |
 | `.github/ISSUE_TEMPLATE/` | バグ報告用のIssueテンプレート |
 
-テストは順次追加します。

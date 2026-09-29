@@ -1,0 +1,12 @@
+{
+  "name": "ai-wp-testing-demo",
+  "private": true,
+  "description": "講座用デモサイトのE2Eテスト（Playwright）",
+  "scripts": {
+    "test": "playwright test",
+    "test:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
+  }
+}
