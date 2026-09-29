@@ -49,7 +49,7 @@ fi
 if ! wp language core is-installed ja; then
   wp language core install ja
 fi
-if [ "$(wp option get WPLANG)" != ja ]; then
+if [ "$(wp option get WPLANG 2>/dev/null || true)" != ja ]; then
   wp site switch-language ja
 fi
 wp option update timezone_string Asia/Tokyo
