@@ -66,6 +66,13 @@ for plugin in akismet hello; do
   fi
 done
 
+# テストデータが未投入（業種または公開済みの制作実績が0件）のときだけ投入する。
+# 投入し直すときは scripts/seed.sh を実行する。
+if [ "$(wp term list industry --format=count)" = 0 ] \
+  || [ "$(wp post list --post_type=works --post_status=publish --format=count)" = 0 ]; then
+  ./scripts/seed.sh
+fi
+
 echo
 echo "サイト:       ${SITE_URL}/"
 echo "管理画面:     ${SITE_URL}/wp-admin/"
