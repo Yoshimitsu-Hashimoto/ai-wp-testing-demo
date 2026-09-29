@@ -111,7 +111,7 @@ input::placeholder,textarea::placeholder{color:#98a5af}
 .privacy-item p{margin:0;color:#526473}
 .policy-date{text-align:right;color:var(--muted);font-size:13px;margin-top:24px}
 /* 制作実績の絞り込み（WordPress版はリンクで絞り込む） */
-.filter-row a{min-width:126px;padding:10px 20px;text-align:center;border:1px solid #9aafbf;color:var(--navy);font-size:14px}
+.filter-row a{min-width:126px;padding:10px 20px;text-align:center;border:1px solid #9aafbf;background:#fff;color:var(--navy);font-size:14px}
 .filter-row a:hover{text-decoration:none;background:#eef6fa}
 .filter-row a[aria-current="page"]{background:var(--navy);border-color:var(--navy);color:#fff}
 .works-empty{text-align:center;color:var(--muted);padding:40px 0;margin:0}
