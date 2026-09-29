@@ -15,6 +15,45 @@
 | 絞り込み | カスタムタクソノミー「業種」で実績を絞り込む |
 | お問い合わせ | 名前・メール・本文・同意チェック・送信完了表示。送信内容はローカルのメール確認環境に届く |
 
+## ローカル環境の起動
+
+Docker Desktop（Docker Compose v2）が必要です。
+
+```bash
+./scripts/setup.sh
+```
+
+初回はWordPressのインストールと初期設定（日本語化・タイムゾーン・パーマリンク）まで行います。2回目以降も同じコマンドで起動でき、初期設定は揃った状態に保たれます。
+
+初回は日本語パックとDockerイメージをダウンロードするため、ネットワーク接続が必要です。講座で使う場合は、事前に一度実行しておいてください。
+
+| 用途 | URL |
+|---|---|
+| サイト | http://localhost:8090/ |
+| 管理画面 | http://localhost:8090/wp-admin/ |
+| 確認用メールボックス（Mailpit） | http://localhost:8091/ |
+
+管理画面のログイン情報は `.env.example` にあります。ローカルの講座用環境でだけ使うテスト用の値です。ポートや管理者情報を変える場合は、`.env.example` を `.env` にコピーして編集します。ポートを変えた場合はサイトのURLも追従します。管理者情報はインストール時にだけ使われるため、変更後は `./scripts/reset.sh` で作り直してください。
+
+サイトとMailpitは、このPC（localhost）からだけ開けます。
+
+WordPressから送信したメールは外部には送られず、すべてMailpitに届きます。
+
+| 操作 | コマンド |
+|---|---|
+| 停止 | `docker compose stop` |
+| 初期状態から作り直す（データはすべて消える） | `./scripts/reset.sh` |
+| WP-CLIを使う | `docker compose run --rm wpcli wp <コマンド>` |
+
+### 使用しているイメージ
+
+| サービス | イメージ |
+|---|---|
+| WordPress | `wordpress:7.1.2-php8.3-apache` |
+| WP-CLI | `wordpress:cli-2.12.0-php8.3` |
+| データベース | `mariadb:11.4.13` |
+| メール確認 | `axllent/mailpit:v1.31.3` |
+
 ## ブランチ
 
 | ブランチ | 状態 |
@@ -28,7 +67,10 @@
 
 | パス | 内容 |
 |---|---|
+| `compose.yaml` | Docker環境の定義 |
+| `docker/mu-plugins/` | ローカル環境用の設定（メールをMailpitへ送る） |
+| `scripts/` | 環境の起動・初期化スクリプト |
 | `docs/` | 仕様書・バグ管理表など |
 | `.github/ISSUE_TEMPLATE/` | バグ報告用のIssueテンプレート |
 
-Docker環境・WordPressテーマ・テストは順次追加します。
+WordPressテーマ・テストデータ・テストは順次追加します。
