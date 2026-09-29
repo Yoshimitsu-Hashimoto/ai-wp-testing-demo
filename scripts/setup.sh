@@ -8,7 +8,7 @@ if [ -f .env ]; then
 fi
 WP_PORT="${WP_PORT:-8090}"
 MAILPIT_PORT="${MAILPIT_PORT:-8091}"
-WP_TITLE="${WP_TITLE:-Works Studio}"
+WP_TITLE="${WP_TITLE:-株式会社ひなた}"
 WP_ADMIN_USER="${WP_ADMIN_USER:-admin}"
 WP_ADMIN_PASSWORD="${WP_ADMIN_PASSWORD:-admin-password}"
 WP_ADMIN_EMAIL="${WP_ADMIN_EMAIL:-admin@example.test}"
@@ -52,9 +52,13 @@ fi
 if [ "$(wp option get WPLANG 2>/dev/null || true)" != ja ]; then
   wp site switch-language ja
 fi
+wp option update blogname "$WP_TITLE"
 wp option update timezone_string Asia/Tokyo
 wp option update date_format 'Y年n月j日'
 # .htaccess は WordPress イメージに同梱のものを使う
+if ! wp theme is-active hinata; then
+  wp theme activate hinata
+fi
 wp rewrite structure '/%postname%/'
 for plugin in akismet hello; do
   if wp plugin is-installed "$plugin"; then

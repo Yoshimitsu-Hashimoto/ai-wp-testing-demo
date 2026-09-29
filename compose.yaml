@@ -39,6 +39,7 @@ services:
     volumes:
       - wp_data:/var/www/html
       - ./docker/mu-plugins:/var/www/html/wp-content/mu-plugins:ro
+      - ./theme/hinata:/var/www/html/wp-content/themes/hinata:ro
 
   # WP-CLI。scripts/ 内のスクリプトから docker compose run で使う。
   wpcli:
@@ -55,6 +56,7 @@ services:
     volumes:
       - wp_data:/var/www/html
       - ./docker/mu-plugins:/var/www/html/wp-content/mu-plugins:ro
+      - ./theme/hinata:/var/www/html/wp-content/themes/hinata:ro
 
   # フォームから送信されたメールを受け取る確認用メールボックス
   mailpit:

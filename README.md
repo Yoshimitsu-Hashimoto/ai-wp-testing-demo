@@ -23,7 +23,7 @@ Docker Desktop（Docker Compose v2）が必要です。
 ./scripts/setup.sh
 ```
 
-初回はWordPressのインストールと初期設定（日本語化・タイムゾーン・パーマリンク）まで行います。2回目以降も同じコマンドで起動でき、初期設定は揃った状態に保たれます。
+初回はWordPressのインストールと初期設定（サイト名・日本語化・タイムゾーン・パーマリンク・テーマ `hinata` の有効化）まで行います。2回目以降も同じコマンドで起動でき、初期設定は揃った状態に保たれます。
 
 初回は日本語パックとDockerイメージをダウンロードするため、ネットワーク接続が必要です。講座で使う場合は、事前に一度実行しておいてください。
 
@@ -54,6 +54,24 @@ WordPressから送信したメールは外部には送られず、すべてMailp
 | データベース | `mariadb:11.4.13` |
 | メール確認 | `axllent/mailpit:v1.31.3` |
 
+## WordPressテーマ（theme/hinata）
+
+| ファイル | 役割 |
+|---|---|
+| `inc/post-types.php` | カスタム投稿タイプ「制作実績」（`works`）とカスタムタクソノミー「業種」（`industry`） |
+| `inc/works-meta.php` | カスタムフィールド「顧客名・制作年・担当範囲」と管理画面の入力欄 |
+| `inc/works-query.php` | 実績一覧の業種による絞り込み（`/works/?industry=<業種のスラッグ>`） |
+| `inc/contact-form.php` | お問い合わせフォームの入力チェックとメール送信 |
+| `archive-works.php` / `single-works.php` | 実績一覧・詳細 |
+| `page-contact.php` / `page-thanks.php` | お問い合わせ・送信完了（固定ページ `contact` / `thanks`） |
+| `page-company.php` / `page-privacy.php` | 会社案内・プライバシーポリシー（固定ページ `company` / `privacy`） |
+
+固定ページはスラッグで対応するテンプレートが使われます。フォームやカスタムフィールドにプラグインは使っていません。固定ページ・業種・制作実績はテストデータとして投入します（順次追加）。
+
+お問い合わせフォームの入力チェックはサーバー側で行い、エラーを画面に表示します（ブラウザ標準の入力チェックは `novalidate` で無効にしています）。
+
+実績一覧の絞り込みでは、存在しない業種や業種として使えない値を指定すると該当0件になります。
+
 ## ブランチ
 
 | ブランチ | 状態 |
@@ -67,10 +85,12 @@ WordPressから送信したメールは外部には送られず、すべてMailp
 
 | パス | 内容 |
 |---|---|
+| `static-site/` | WordPress化する前の静的HTML/CSS（デザインの元） |
+| `theme/hinata/` | WordPressテーマ |
 | `compose.yaml` | Docker環境の定義 |
 | `docker/mu-plugins/` | ローカル環境用の設定（メールをMailpitへ送る） |
 | `scripts/` | 環境の起動・初期化スクリプト |
 | `docs/` | 仕様書・バグ管理表など |
 | `.github/ISSUE_TEMPLATE/` | バグ報告用のIssueテンプレート |
 
-WordPressテーマ・テストデータ・テストは順次追加します。
+テストデータ・テストは順次追加します。
